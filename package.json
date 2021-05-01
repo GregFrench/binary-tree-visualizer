@@ -1,5 +1,5 @@
 {
-  "name": "binary-tree-visualization",
+  "name": "binary-tree-visualizer",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
