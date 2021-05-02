@@ -1,4 +1,4 @@
-function Node(props) {
+function TreeNode(props) {
   let coords = props.coordinates;
   let radius = props.radius;
 
@@ -26,4 +26,4 @@ function Node(props) {
   );
 }
 
-export default Node;
+export default TreeNode;
