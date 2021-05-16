@@ -4,64 +4,33 @@ import Queue from 'queue-fifo';
 
 function Tree() {
   const nodeRadius = 35;
-  let edgeLength = nodeRadius + 300;
+  let edgeLength = nodeRadius + 150;
   let nodeCenterX = 750;
   let nodeCenterY = 60;
   let degreesLeft = 165;
   let degreesRight = 15;
-  let data = [
-    {
-      val: 10,
-    },
-    {
-      val: 5,
-    },
-    {
-      val: 15,
-    },
-    {
-      val: 2,
-    },
-    {
-      val: 7,
-    },
-    {
-      val: 13,
-    },
-    {
-      val: 17,
-    },
-    {
-      val: 18,
-    },
-    {
-      val: 19,
-    },
-    {
-      val: 20,
-    },
-    {
-      val: 21,
-    },
-    {
-      val: 22,
-    },
-    {
-      val: 23,
-    },
-    {
-      val: 24,
-    },
-    {
-      val: 25,
-    }
-  ];
+  let data = [];
+
+  for (let i = 0; i < 15; i++) {
+    data.push({
+      val: i
+    })
+  }
+
   let numNodes = data.length;
   let levels = Math.ceil(Math.log(numNodes) / Math.log(2));
   let depthIndex = -1;
   let prevDepth = 0;
   var queue = new Queue();
   let newDepth = false;
+  // initial tree edge size doubles when tree doubles
+  const edgeProportionality = Math.log(levels) / Math.log(2);
+
+  console.log(edgeLength)
+  console.log(edgeProportionality)
+  edgeLength *= edgeProportionality;
+  console.log('edge length')
+  console.log(edgeLength)
 
   function parent(i) {
     return parseInt((i - 1) / 2, 10);
