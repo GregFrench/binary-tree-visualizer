@@ -1,15 +1,14 @@
 import TreeNode from './TreeNode.js';
-import TreeEdge from './TreeEdge.js';
 import {degreesToRadians} from '../utils/helpers';
 import Queue from 'queue-fifo';
 
 function Tree() {
-  const nodeRadius = 50;
-  let edgeLength = nodeRadius + 150;
-  let nodeCenterX = 500;
+  const nodeRadius = 35;
+  let edgeLength = nodeRadius + 300;
+  let nodeCenterX = 750;
   let nodeCenterY = 60;
-  let degreesLeft = 145;
-  let degreesRight = 35;
+  let degreesLeft = 165;
+  let degreesRight = 15;
   let data = [
     {
       val: 10,
@@ -31,6 +30,30 @@ function Tree() {
     },
     {
       val: 17,
+    },
+    {
+      val: 18,
+    },
+    {
+      val: 19,
+    },
+    {
+      val: 20,
+    },
+    {
+      val: 21,
+    },
+    {
+      val: 22,
+    },
+    {
+      val: 23,
+    },
+    {
+      val: 24,
+    },
+    {
+      val: 25,
     }
   ];
   let numNodes = data.length;
@@ -46,7 +69,7 @@ function Tree() {
 
   return (
     <div className="flex justify-center">
-      <svg height="2000" width="2000">
+      <svg height="2000" width="100%">
         {
           data.map((item, index) => {
             let depth = Math.floor(Math.log(index + 1) / Math.log(2));
@@ -63,6 +86,14 @@ function Tree() {
             let elem;
 
             queue.enqueue({nodeCenterX, nodeCenterY});
+            console.log(depthIndex);
+
+            if (newDepth === true) {
+              degreesLeft -= 15;
+              degreesRight += 15;
+              edgeLength -= 10;
+              newDepth = false;
+            }
 
             // root node
             if (index === 0) {
@@ -78,11 +109,7 @@ function Tree() {
               }
             }
 
-            if (newDepth === true) {
-              degreesLeft -= 10;
-              degreesRight += 10;
-              newDepth = false;
-            }
+            console.log(data[index])
 
             if (depth < levels - 1 && depthIndex % 2 === 0) {
               elem = (
@@ -93,23 +120,6 @@ function Tree() {
                   }}
                   radius={nodeRadius}
                   value={item.val}></TreeNode>
-
-                  <TreeEdge
-                    coordinates={{
-                      x1: nodeRadius * Math.cos(degreesToRadians(degreesLeft)) + data[index].nodeCenterX,
-                      y1: nodeRadius * Math.sin(degreesToRadians(degreesLeft)) + data[index].nodeCenterY,
-                      x2: edgeLength * Math.cos(degreesToRadians(degreesLeft)) + data[index].nodeCenterX,
-                      y2: edgeLength * Math.sin(degreesToRadians(degreesLeft)) + data[index].nodeCenterY
-                    }}
-                  >
-                  </TreeEdge>
-
-                  <TreeEdge coordinates={{
-                    x1: nodeRadius * Math.cos(degreesToRadians(degreesRight)) + data[index].nodeCenterX,
-                    y1: nodeRadius * Math.sin(degreesToRadians(degreesRight)) + data[index].nodeCenterY,
-                    x2: edgeLength * Math.cos(degreesToRadians(degreesRight)) + data[index].nodeCenterX,
-                    y2: edgeLength * Math.sin(degreesToRadians(degreesRight)) + data[index].nodeCenterY
-                  }}></TreeEdge>
                 </g>
               )
             } else {
@@ -121,23 +131,6 @@ function Tree() {
                   }}
                   radius={nodeRadius}
                   value={item.val}></TreeNode>
-
-                  <TreeEdge
-                    coordinates={{
-                      x1: nodeRadius * Math.cos(degreesToRadians(degreesLeft)) + data[index].nodeCenterX,
-                      y1: nodeRadius * Math.sin(degreesToRadians(degreesLeft)) + data[index].nodeCenterY,
-                      x2: edgeLength * Math.cos(degreesToRadians(degreesLeft)) + data[index].nodeCenterX,
-                      y2: edgeLength * Math.sin(degreesToRadians(degreesLeft)) + data[index].nodeCenterY
-                    }}
-                  >
-                  </TreeEdge>
-
-                  <TreeEdge coordinates={{
-                    x1: nodeRadius * Math.cos(degreesToRadians(degreesRight)) + data[index].nodeCenterX,
-                    y1: nodeRadius * Math.sin(degreesToRadians(degreesRight)) + data[index].nodeCenterY,
-                    x2: edgeLength * Math.cos(degreesToRadians(degreesRight)) + data[index].nodeCenterX,
-                    y2: edgeLength * Math.sin(degreesToRadians(degreesRight)) + data[index].nodeCenterY
-                  }}></TreeEdge>
                 </g>
               )
             }
