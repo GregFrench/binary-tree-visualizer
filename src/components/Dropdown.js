@@ -1,6 +1,7 @@
 function Dropdown(props) {
   let title = props.title;
   let items = props.items;
+  let setSelectedValue = props.setSelectedValue;
 
   return (
     <div className="dropdown float-right relative text-white">
@@ -11,7 +12,10 @@ function Dropdown(props) {
       <div className="dropdown-content absolute bg-green-500 hidden min-w-max right-0 rounded-b-lg shadow-lg z-10">
         {items.map((item) => {
           return (
-            <span className="block cursor-pointer hover:bg-green-700 px-4 py-3 text-white">{item}</span>
+            <span
+              className="block cursor-pointer hover:bg-green-700 px-4 py-3 text-white"
+              onClick={() => setSelectedValue(item.value)}
+            >{item.label}</span>
           );
         })}
       </div>
