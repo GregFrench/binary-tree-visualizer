@@ -3,15 +3,19 @@ import {degreesToRadians} from '../utils/helpers';
 import Queue from 'queue-fifo';
 
 function Tree() {
-  const nodeRadius = 35;
+  const nodeRadius = 50;
   let edgeLength = nodeRadius + 150;
   let nodeCenterX = 750;
   let nodeCenterY = 60;
   let degreesLeft = 165;
   let degreesRight = 15;
+  let depthIndex = -1;
+  let prevDepth = 0;
+  var queue = new Queue();
+  let newDepth = false;
   let data = [];
 
-  for (let i = 0; i < 15; i++) {
+  for (let i = 0; i < 7; i++) {
     data.push({
       val: i
     })
@@ -19,18 +23,11 @@ function Tree() {
 
   let numNodes = data.length;
   let levels = Math.ceil(Math.log(numNodes) / Math.log(2));
-  let depthIndex = -1;
-  let prevDepth = 0;
-  var queue = new Queue();
-  let newDepth = false;
+  
   // initial tree edge size doubles when tree doubles
   const edgeProportionality = Math.log(levels) / Math.log(2);
 
-  console.log(edgeLength)
-  console.log(edgeProportionality)
   edgeLength *= edgeProportionality;
-  console.log('edge length')
-  console.log(edgeLength)
 
   function parent(i) {
     return parseInt((i - 1) / 2, 10);
@@ -58,8 +55,8 @@ function Tree() {
             console.log(depthIndex);
 
             if (newDepth === true) {
-              degreesLeft -= 15;
-              degreesRight += 15;
+              degreesLeft -= 20;
+              degreesRight += 20;
               edgeLength -= 10;
               newDepth = false;
             }
