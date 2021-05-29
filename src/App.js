@@ -17,13 +17,13 @@ function App() {
           items={treeItems}
           selectedValue={selectedTreeValue}
           setSelectedValue={setSelectedTreeValue}
-        ></Dropdown>
+        />
         <Dropdown
           title={'Algorithm'}
           items={algorithmItems}
           selectedValue={selectedAlgorithmValue}
           setSelectedValue={setSelectedAlgorithmValue}
-        ></Dropdown>
+        />
       </Header>
       <div className="container mx-auto">
         <Tree></Tree>
