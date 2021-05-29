@@ -9,16 +9,16 @@ function TreeNode(props) {
         cy={coords.y}
         r={radius}
         stroke="black"
-        stroke-width="3"
+        strokeWidth="3"
         fill="white"
       />
 
       <text
         x={coords.x}
         y={parseInt(coords.y) + 5}
-        text-anchor="middle"
+        textAnchor="middle"
         fill="black"
-        font-weight="bold"
+        fontWeight="bold"
       >
         {props.value}
       </text>

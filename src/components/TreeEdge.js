@@ -1,4 +1,4 @@
-function Edge(props) {
+function TreeEdge(props) {
   let coords = props.coordinates;
 
   return (
@@ -12,4 +12,4 @@ function Edge(props) {
   );
 }
 
-export default Edge;
+export default TreeEdge;

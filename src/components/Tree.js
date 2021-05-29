@@ -1,48 +1,109 @@
 import TreeNode from './TreeNode.js';
-import TreeEdges from './TreeEdges.js';
 import {degreesToRadians} from '../utils/helpers';
+import Queue from 'queue-fifo';
 
 function Tree() {
   const nodeRadius = 50;
   let edgeLength = nodeRadius + 150;
-  let nodeCenterX = 500;
+  let nodeCenterX = 750;
   let nodeCenterY = 60;
-  let degreesLeft = 135;
-  let degreesRight = 45;
+  let degreesLeft = 165;
+  let degreesRight = 15;
+  let depthIndex = -1;
+  let prevDepth = 0;
+  var queue = new Queue();
+  let newDepth = false;
+  let data = [];
+
+  for (let i = 0; i < 7; i++) {
+    data.push({
+      val: i
+    })
+  }
+
+  let numNodes = data.length;
+  let levels = Math.ceil(Math.log(numNodes) / Math.log(2));
+  
+  // initial tree edge size doubles when tree doubles
+  const edgeProportionality = Math.log(levels) / Math.log(2);
+
+  edgeLength *= edgeProportionality;
+
+  function parent(i) {
+    return parseInt((i - 1) / 2, 10);
+  }
 
   return (
     <div className="flex justify-center">
-      <svg height="1000" width="1000">
-        <TreeNode coordinates={{
-          x: nodeCenterX,
-          y: nodeCenterY
-        }}
-        radius={nodeRadius}
-        value="10"></TreeNode>
+      <svg height="2000" width="100%">
+        {
+          data.map((item, index) => {
+            let depth = Math.floor(Math.log(index + 1) / Math.log(2));
 
-        <TreeEdges
-          coordinates={{
-            nodeCenterX: nodeCenterX,
-            nodeCenterY: nodeCenterY
-          }}
-          nodeRadius={nodeRadius}
-          edgeLength={edgeLength}
-        >
-        </TreeEdges>
+            // new level is reached
+            if (depth !== prevDepth) {
+              newDepth = true;
+              depthIndex = -1;
+            }
 
-        <TreeNode coordinates={{
-          x: (edgeLength + nodeRadius) * Math.cos(degreesToRadians(degreesLeft)) + nodeCenterX,
-          y: (edgeLength + nodeRadius) * Math.sin(degreesToRadians(degreesLeft)) + nodeCenterY
-        }}
-        radius={nodeRadius}
-        value="5"></TreeNode>
+            prevDepth = depth;
 
-        <TreeNode coordinates={{
-          x: (edgeLength + nodeRadius) * Math.cos(degreesToRadians(degreesRight)) + nodeCenterX,
-          y: (edgeLength + nodeRadius) * Math.sin(degreesToRadians(degreesRight)) + nodeCenterY
-        }}
-        radius={nodeRadius}
-        value="15"></TreeNode>
+            depthIndex++;
+            let elem;
+
+            queue.enqueue({nodeCenterX, nodeCenterY});
+            console.log(depthIndex);
+
+            if (newDepth === true) {
+              degreesLeft -= 20;
+              degreesRight += 20;
+              edgeLength -= 10;
+              newDepth = false;
+            }
+
+            // root node
+            if (index === 0) {
+              data[0].nodeCenterX = nodeCenterX;
+              data[0].nodeCenterY = nodeCenterY;
+            } else {
+              if (depthIndex % 2 === 0) {
+                data[index].nodeCenterX = (edgeLength + nodeRadius) * Math.cos(degreesToRadians(degreesLeft)) + data[parent(index)].nodeCenterX;
+                data[index].nodeCenterY = (edgeLength + nodeRadius) * Math.sin(degreesToRadians(degreesLeft)) + data[parent(index)].nodeCenterY;
+              } else {
+                data[index].nodeCenterX = (edgeLength + nodeRadius) * Math.cos(degreesToRadians(degreesRight)) + data[parent(index)].nodeCenterX;
+                data[index].nodeCenterY = (edgeLength + nodeRadius) * Math.sin(degreesToRadians(degreesRight)) + data[parent(index)].nodeCenterY;
+              }
+            }
+
+            console.log(data[index])
+
+            if (depth < levels - 1 && depthIndex % 2 === 0) {
+              elem = (
+                <g>
+                  <TreeNode coordinates={{
+                    x: data[index].nodeCenterX,
+                    y: data[index].nodeCenterY
+                  }}
+                  radius={nodeRadius}
+                  value={item.val}></TreeNode>
+                </g>
+              )
+            } else {
+              elem = (
+                <g>
+                  <TreeNode coordinates={{
+                    x: data[index].nodeCenterX,
+                    y: data[index].nodeCenterY
+                  }}
+                  radius={nodeRadius}
+                  value={item.val}></TreeNode>
+                </g>
+              )
+            }
+
+            return elem;
+          })
+        }
       </svg>
     </div>
   );
