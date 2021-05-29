@@ -2,7 +2,8 @@ import TreeNode from './TreeNode.js';
 import {degreesToRadians} from '../utils/helpers';
 import Queue from 'queue-fifo';
 
-function Tree() {
+function Tree(props) {
+  const treeType = props.type;
   const nodeRadius = 50;
   let edgeLength = nodeRadius + 150;
   let nodeCenterX = 750;
@@ -31,6 +32,10 @@ function Tree() {
 
   function parent(i) {
     return parseInt((i - 1) / 2, 10);
+  }
+
+  if (treeType !== 'bst') {
+    return null;
   }
 
   return (

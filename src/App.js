@@ -26,7 +26,7 @@ function App() {
         />
       </Header>
       <div className="container mx-auto">
-        <Tree></Tree>
+        <Tree type={selectedTreeValue}></Tree>
       </div>
     </div>
   );
