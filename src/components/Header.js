@@ -1,21 +1,7 @@
 import Dropdown from './Dropdown';
+import {algorithmItems, treeItems} from '../utils';
 
 function Header() {
-  let treeItems = [
-    'Binary Search Tree',
-    'AVL Tree',
-    'Red Black Tree',
-    'Splay Tree',
-    'Treap'
-  ];
-
-  let algorithmItems = [
-    'Preorder Traversal',
-    'Inorder Traversal',
-    'Postorder Traversal',
-    'Level Order Traversal'
-  ];
-
   return (
     <header className="bg-green-500">
       <div className="container mx-auto flex">
