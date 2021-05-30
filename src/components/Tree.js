@@ -32,6 +32,28 @@ function Tree(props) {
     },
   ];
 
+  let tree = {
+    val: 15,
+    left: {
+      val: 7,
+      left: {
+        val: 3
+      },
+      right: {
+        val: 10
+      },
+    },
+    right: {
+      val: 18,
+      left: {
+        val: 16,
+      },
+      right: {
+        val: 20,
+      },
+    }
+  }
+
   let numNodes = data.length;
   let levels = Math.ceil(Math.log(numNodes) / Math.log(2));
   
