@@ -14,13 +14,23 @@ function Tree(props) {
   let prevDepth = 0;
   var queue = new Queue();
   let newDepth = false;
-  let data = [];
-
-  for (let i = 0; i < 7; i++) {
-    data.push({
-      val: i
-    })
-  }
+  let data = [
+    {
+      val: 15
+    }, {
+      val: 7
+    }, {
+      val: 18
+    }, {
+      val: 3
+    }, {
+      val: 10
+    }, {
+      val: 16
+    }, {
+      val: 20
+    },
+  ];
 
   let numNodes = data.length;
   let levels = Math.ceil(Math.log(numNodes) / Math.log(2));
