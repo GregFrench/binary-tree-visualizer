@@ -8,6 +8,7 @@ import './App.css';
 function App() {
   const [selectedTreeValue, setSelectedTreeValue] = useState();
   const [selectedAlgorithmValue, setSelectedAlgorithmValue] = useState();
+  const [insertValue, setInsertValue] = useState(0);
 
   return (
     <div>
@@ -26,6 +27,14 @@ function App() {
         />
       </Header>
       <div className="container mx-auto">
+        <form>
+          <input
+            type="number"
+            name="name"
+            value={insertValue}
+            onChange={(e) => setInsertValue(e.target.value)} />
+          <input type="button" value="Insert" onClick={() => console.log(insertValue)} />
+        </form>
         <Tree type={selectedTreeValue}></Tree>
       </div>
     </div>
