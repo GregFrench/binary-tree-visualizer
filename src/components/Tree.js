@@ -1,6 +1,5 @@
 import TreeNode from './TreeNode.js';
 import {degreesToRadians} from '../utils/helpers';
-import Queue from 'queue-fifo';
 
 function Tree(props) {
   const treeType = props.type;
@@ -12,7 +11,6 @@ function Tree(props) {
   let degreesRight = 15;
   let depthIndex = -1;
   let prevDepth = 0;
-  var queue = new Queue();
   let newDepth = false;
   let data = [
     {
@@ -88,9 +86,6 @@ function Tree(props) {
             depthIndex++;
             let elem;
 
-            queue.enqueue({nodeCenterX, nodeCenterY});
-            console.log(depthIndex);
-
             if (newDepth === true) {
               degreesLeft -= 20;
               degreesRight += 20;
@@ -111,8 +106,6 @@ function Tree(props) {
                 data[index].nodeCenterY = (edgeLength + nodeRadius) * Math.sin(degreesToRadians(degreesRight)) + data[parent(index)].nodeCenterY;
               }
             }
-
-            console.log(data[index])
 
             if (depth < levels - 1 && depthIndex % 2 === 0) {
               elem = (
