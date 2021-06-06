@@ -3,7 +3,7 @@ function TreeNode(props) {
   let radius = props.radius;
 
   return (
-    <g>
+    <g className="fade-in">
       <circle
         cx={coords.x}
         cy={coords.y}
