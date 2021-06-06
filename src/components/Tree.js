@@ -1,24 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import TreeNode from './TreeNode.js';
 import {degreesToRadians} from '../utils/helpers';
-var Queue = require('queue-fifo');
+import {tree} from '../utils';
 
-const nodeRadius = 50;
-let edgeLength = nodeRadius + 150;
+var Queue = require('queue-fifo');
 
 const Tree = (props) => {
   const treeType = props.type;
-  let nodeCenterX = 750;
-  let nodeCenterY = 60;
-  let degreesLeft = 165;
-  let degreesRight = 15;
-  let depthIndex = -1;
-  let prevDepth = 0;
-  let newDepth = false;
   const [data, setData] = useState([]);
   let queue = new Queue();
 
-  /* let tree = {
+  let treeObj = {
     val: 15,
     left: {
       val: 7,
@@ -46,19 +38,9 @@ const Tree = (props) => {
         right: null,
       },
     }
-  };*/
-
-  let tree = {
-    val: 15,
-    left: {
-      val: 7,
-      left: null,
-      right: null,
-    },
-    right: null,
   };
 
-  const generateTree = (root, parent, level) => {
+  const generateTree = (root, parent, level, direction = 'left') => {
     if (root === null) {
       return;
     }
@@ -66,50 +48,48 @@ const Tree = (props) => {
     queue.enqueue(root);
 
     let node = queue.dequeue();
-
     let obj = {};
-
 
     if (parent === null) {
       obj = {
         val: node.val,
-        nodeCenterX: nodeCenterX,
-        nodeCenterY: nodeCenterY,
+        nodeCenterX: tree.nodeCenterX,
+        nodeCenterY: tree.nodeCenterY,
       };
 
-      node.nodeCenterX = nodeCenterX;
-      node.nodeCenterY = nodeCenterY;
+      node.nodeCenterX = tree.nodeCenterX;
+      node.nodeCenterY = tree.nodeCenterY;
     } else {
       let degrees;
 
-      //if (depthIndex % 2 === 0) {
-        degrees = degreesLeft;
-      //} else {
-        //degrees = degreesRight;
-      //}
+      if (direction === 'left') {
+        degrees = tree.degreesLeft;
+      } else {
+        degrees = tree.degreesRight;
+      }
 
       obj = {
         val: node.val,
-        nodeCenterX: (edgeLength + nodeRadius) * Math.cos(degreesToRadians(degrees)) + parent.nodeCenterX,
-        nodeCenterY: (edgeLength + nodeRadius) * Math.sin(degreesToRadians(degrees)) + parent.nodeCenterY,
+        nodeCenterX: (tree.edgeLength + tree.nodeRadius) * Math.cos(degreesToRadians(degrees)) + parent.nodeCenterX,
+        nodeCenterY: (tree.edgeLength + tree.nodeRadius) * Math.sin(degreesToRadians(degrees)) + parent.nodeCenterY,
       };
 
-      node.nodeCenterX = (edgeLength + nodeRadius) * Math.cos(degreesToRadians(degrees)) + parent.nodeCenterX;
-      node.nodeCenterY = (edgeLength + nodeRadius) * Math.sin(degreesToRadians(degrees)) + parent.nodeCenterY;
+      node.nodeCenterX = (tree.edgeLength + tree.nodeRadius) * Math.cos(degreesToRadians(degrees)) + parent.nodeCenterX;
+      node.nodeCenterY = (tree.edgeLength + tree.nodeRadius) * Math.sin(degreesToRadians(degrees)) + parent.nodeCenterY;
     }
-
 
     setData(data => [...data, obj])
 
-    //setTimeout(() => {
-      generateTree(node.left, node, level + 1);
-      generateTree(node.right, node, level + 1);
-    //}, 1000);
+    setTimeout(() => {
+      generateTree(node.left, node, level + 1, 'left');
+      generateTree(node.right, node, level + 1, 'right');
+    }, 1000);
   };
 
   useEffect(() => {
-    generateTree(tree, null, 0);
-  }, []);
+    setData([]);
+    generateTree(treeObj, null, 0);
+  }, [treeType]);
 
   if (treeType !== 'bst') {
     return null;
@@ -127,7 +107,7 @@ const Tree = (props) => {
                   x: item.nodeCenterX,
                   y: item.nodeCenterY
                 }}
-                radius={nodeRadius}
+                radius={tree.nodeRadius}
                 value={item.val}
               />
             )
