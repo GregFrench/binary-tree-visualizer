@@ -75,14 +75,17 @@ const Tree = (props) => {
         degrees = degreesRight;
       }
 
+      let centerX = (tree.edgeLength + tree.nodeRadius) * Math.cos(degreesToRadians(degrees)) + parent.nodeCenterX;
+      let centerY = (tree.edgeLength + tree.nodeRadius) * Math.sin(degreesToRadians(degrees)) + parent.nodeCenterY;
+
       obj = {
         val: node.val,
-        nodeCenterX: (tree.edgeLength + tree.nodeRadius) * Math.cos(degreesToRadians(degrees)) + parent.nodeCenterX,
-        nodeCenterY: (tree.edgeLength + tree.nodeRadius) * Math.sin(degreesToRadians(degrees)) + parent.nodeCenterY,
+        nodeCenterX: centerX,
+        nodeCenterY: centerY,
       };
 
-      node.nodeCenterX = (tree.edgeLength + tree.nodeRadius) * Math.cos(degreesToRadians(degrees)) + parent.nodeCenterX;
-      node.nodeCenterY = (tree.edgeLength + tree.nodeRadius) * Math.sin(degreesToRadians(degrees)) + parent.nodeCenterY;
+      node.nodeCenterX = centerX;
+      node.nodeCenterY = centerY;
     }
 
     setData(data => [...data, obj])
