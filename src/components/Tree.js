@@ -1,46 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import TreeNode from './TreeNode.js';
 import {degreesToRadians} from '../utils/helpers';
 import {tree} from '../utils';
-
-var Queue = require('queue-fifo');
+const Queue = require('queue-fifo');
+let queue = new Queue();
 
 const Tree = (props) => {
   const treeType = props.type;
   const [data, setData] = useState([]);
-  let queue = new Queue();
 
-  let treeObj = {
-    val: 15,
-    left: {
-      val: 7,
-      left: {
-        val: 3,
-        left: null,
-        right: null,
-      },
-      right: {
-        val: 10,
-        left: null,
-        right: null,
-      },
-    },
-    right: {
-      val: 18,
-      left: {
-        val: 16,
-        left: null,
-        right: null,
-      },
-      right: {
-        val: 20,
-        left: null,
-        right: null,
-      },
-    }
-  };
-
-  const generateTree = (root, parent, level, direction = 'left') => {
+  const generateTree = useCallback((root, parent, level, direction = 'left') => {
     if (root === null) {
       return;
     }
@@ -63,6 +32,7 @@ const Tree = (props) => {
       let degrees;
       let degreesLeft = tree.degreesLeft;
       let degreesRight = tree.degreesRight;
+      let length = tree.edgeLength + tree.nodeRadius;
 
       if (level !== 0 && level % 2 === 0) {
         degreesLeft -= 20;
@@ -75,8 +45,8 @@ const Tree = (props) => {
         degrees = degreesRight;
       }
 
-      let centerX = (tree.edgeLength + tree.nodeRadius) * Math.cos(degreesToRadians(degrees)) + parent.nodeCenterX;
-      let centerY = (tree.edgeLength + tree.nodeRadius) * Math.sin(degreesToRadians(degrees)) + parent.nodeCenterY;
+      let centerX = length * Math.cos(degreesToRadians(degrees)) + parent.nodeCenterX;
+      let centerY = length * Math.sin(degreesToRadians(degrees)) + parent.nodeCenterY;
 
       obj = {
         val: node.val,
@@ -94,12 +64,42 @@ const Tree = (props) => {
       generateTree(node.left, node, level + 1, 'left');
       generateTree(node.right, node, level + 1, 'right');
     }, 1000);
-  };
+  }, []);
 
   useEffect(() => {
+    let treeObj = {
+      val: 15,
+      left: {
+        val: 7,
+        left: {
+          val: 3,
+          left: null,
+          right: null,
+        },
+        right: {
+          val: 10,
+          left: null,
+          right: null,
+        },
+      },
+      right: {
+        val: 18,
+        left: {
+          val: 16,
+          left: null,
+          right: null,
+        },
+        right: {
+          val: 20,
+          left: null,
+          right: null,
+        },
+      }
+    };
+
     setData([]);
     generateTree(treeObj, null, 0);
-  }, [treeType]);
+  }, [generateTree, treeType]);
 
   if (treeType !== 'bst') {
     return null;
