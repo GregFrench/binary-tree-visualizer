@@ -35,7 +35,10 @@ function App() {
             onChange={(e) => setInsertValue(e.target.value)} />
           <input type="button" value="Insert" onClick={() => console.log(insertValue)} />
         </form>
-        <Tree type={selectedTreeValue}></Tree>
+        <Tree
+          insertValue={insertValue}
+          type={selectedTreeValue}
+        />
       </div>
     </div>
   );
