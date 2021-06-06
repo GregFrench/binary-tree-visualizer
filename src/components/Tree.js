@@ -3,10 +3,11 @@ import TreeNode from './TreeNode.js';
 import {degreesToRadians} from '../utils/helpers';
 var Queue = require('queue-fifo');
 
+const nodeRadius = 50;
+let edgeLength = nodeRadius + 150;
+
 const Tree = (props) => {
   const treeType = props.type;
-  const nodeRadius = 50;
-  let edgeLength = nodeRadius + 150;
   let nodeCenterX = 750;
   let nodeCenterY = 60;
   let degreesLeft = 165;
@@ -15,8 +16,9 @@ const Tree = (props) => {
   let prevDepth = 0;
   let newDepth = false;
   const [data, setData] = useState([]);
+  let queue = new Queue();
 
-  let tree = {
+  /* let tree = {
     val: 15,
     left: {
       val: 7,
@@ -44,9 +46,19 @@ const Tree = (props) => {
         right: null,
       },
     }
+  };*/
+
+  let tree = {
+    val: 15,
+    left: {
+      val: 7,
+      left: null,
+      right: null,
+    },
+    right: null,
   };
 
-  const generateTree = (root) => {
+  const generateTree = (root, parent, level) => {
     if (root === null) {
       return;
     }
@@ -55,38 +67,49 @@ const Tree = (props) => {
 
     let node = queue.dequeue();
 
-    let arr = [...data];
+    let obj = {};
 
-    arr.push({
-      val: node.val
-    });
 
-    setData(arr);
+    if (parent === null) {
+      obj = {
+        val: node.val,
+        nodeCenterX: nodeCenterX,
+        nodeCenterY: nodeCenterY,
+      };
 
-    setTimeout(() => {
-      console.log(node);
-      generateTree(node.left);
-      generateTree(node.right);
-    }, 1000);
+      node.nodeCenterX = nodeCenterX;
+      node.nodeCenterY = nodeCenterY;
+    } else {
+      let degrees;
+
+      //if (depthIndex % 2 === 0) {
+        degrees = degreesLeft;
+      //} else {
+        //degrees = degreesRight;
+      //}
+
+      obj = {
+        val: node.val,
+        nodeCenterX: (edgeLength + nodeRadius) * Math.cos(degreesToRadians(degrees)) + parent.nodeCenterX,
+        nodeCenterY: (edgeLength + nodeRadius) * Math.sin(degreesToRadians(degrees)) + parent.nodeCenterY,
+      };
+
+      node.nodeCenterX = (edgeLength + nodeRadius) * Math.cos(degreesToRadians(degrees)) + parent.nodeCenterX;
+      node.nodeCenterY = (edgeLength + nodeRadius) * Math.sin(degreesToRadians(degrees)) + parent.nodeCenterY;
+    }
+
+
+    setData(data => [...data, obj])
+
+    //setTimeout(() => {
+      generateTree(node.left, node, level + 1);
+      generateTree(node.right, node, level + 1);
+    //}, 1000);
   };
 
   useEffect(() => {
-    generateTree(tree);
+    generateTree(tree, null, 0);
   }, []);
-
-  var queue = new Queue();
-
-  let numNodes = data.length;
-  let levels = Math.ceil(Math.log(numNodes) / Math.log(2));
-  
-  // initial tree edge size doubles when tree doubles
-  const edgeProportionality = Math.log(levels) / Math.log(2);
-
-  edgeLength *= edgeProportionality;
-
-  function parent(i) {
-    return parseInt((i - 1) / 2, 10);
-  }
 
   if (treeType !== 'bst') {
     return null;
@@ -96,61 +119,18 @@ const Tree = (props) => {
     <div className="flex justify-center">
       <svg height="2000" width="100%">
         {
-          data.map((item, index) => {
-            let arr = [...data];
-            console.log(index)
-            let depth = Math.floor(Math.log(index + 1) / Math.log(2));
-
-            // new level is reached
-            if (depth !== prevDepth) {
-              newDepth = true;
-              depthIndex = -1;
-            }
-
-            prevDepth = depth;
-
-            depthIndex++;
-            let elem;
-
-            if (newDepth === true) {
-              degreesLeft -= 25;
-              degreesRight += 25;
-              edgeLength -= 10;
-              newDepth = false;
-            }
-
-            // root node
-            if (index === 0) {
-              data[0].nodeCenterX = nodeCenterX;
-              data[0].nodeCenterY = nodeCenterY;
-              //setData(arr);
-            } else {
-              let degrees;
-
-              if (depthIndex % 2 === 0) {
-                degrees = degreesLeft;
-              } else {
-                degrees = degreesRight;
-              }
-
-              data[index].nodeCenterX = (edgeLength + nodeRadius) * Math.cos(degreesToRadians(degrees)) + data[parent(index)].nodeCenterX;
-              data[index].nodeCenterY = (edgeLength + nodeRadius) * Math.sin(degreesToRadians(degrees)) + data[parent(index)].nodeCenterY;
-            }
-
-            elem = (
-              <g>
-                <TreeNode
-                  coordinates={{
-                    x: data[index].nodeCenterX,
-                    y: data[index].nodeCenterY
-                  }}
-                  radius={nodeRadius}
-                  value={item.val}
-                />
-              </g>
+          data.map((item) => {
+            console.log(item.val)
+            return (
+              <TreeNode
+                coordinates={{
+                  x: item.nodeCenterX,
+                  y: item.nodeCenterY
+                }}
+                radius={nodeRadius}
+                value={item.val}
+              />
             )
-
-            return elem;
           })
         }
       </svg>
