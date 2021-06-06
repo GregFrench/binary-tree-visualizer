@@ -61,11 +61,18 @@ const Tree = (props) => {
       node.nodeCenterY = tree.nodeCenterY;
     } else {
       let degrees;
+      let degreesLeft = tree.degreesLeft;
+      let degreesRight = tree.degreesRight;
+
+      if (level !== 0 && level % 2 === 0) {
+        degreesLeft -= 20;
+        degreesRight += 20;
+      }
 
       if (direction === 'left') {
-        degrees = tree.degreesLeft;
+        degrees = degreesLeft;
       } else {
-        degrees = tree.degreesRight;
+        degrees = degreesRight;
       }
 
       obj = {
@@ -99,19 +106,16 @@ const Tree = (props) => {
     <div className="flex justify-center">
       <svg height="2000" width="100%">
         {
-          data.map((item) => {
-            console.log(item.val)
-            return (
-              <TreeNode
-                coordinates={{
-                  x: item.nodeCenterX,
-                  y: item.nodeCenterY
-                }}
-                radius={tree.nodeRadius}
-                value={item.val}
-              />
-            )
-          })
+          data.map((item) => (
+            <TreeNode
+              coordinates={{
+                x: item.nodeCenterX,
+                y: item.nodeCenterY
+              }}
+              radius={tree.nodeRadius}
+              value={item.val}
+            />
+          ))
         }
       </svg>
     </div>
