@@ -5,8 +5,39 @@ import {tree} from '../utils';
 const Queue = require('queue-fifo');
 let queue = new Queue();
 
+let treeObj = {
+  val: 15,
+  left: {
+    val: 7,
+    left: {
+      val: 3,
+      left: null,
+      right: null,
+    },
+    right: {
+      val: 10,
+      left: null,
+      right: null,
+    },
+  },
+  right: {
+    val: 18,
+    left: {
+      val: 16,
+      left: null,
+      right: null,
+    },
+    right: {
+      val: 20,
+      left: null,
+      right: null,
+    },
+  }
+};
+
 const Tree = (props) => {
   const treeType = props.type;
+  const valueToInsert = props.valueToInsert;
   const [data, setData] = useState([]);
 
   const generateTree = useCallback((root, parent, level, direction = 'left') => {
@@ -67,39 +98,27 @@ const Tree = (props) => {
   }, []);
 
   useEffect(() => {
-    let treeObj = {
-      val: 15,
-      left: {
-        val: 7,
-        left: {
-          val: 3,
-          left: null,
-          right: null,
-        },
-        right: {
-          val: 10,
-          left: null,
-          right: null,
-        },
-      },
-      right: {
-        val: 18,
-        left: {
-          val: 16,
-          left: null,
-          right: null,
-        },
-        right: {
-          val: 20,
-          left: null,
-          right: null,
-        },
-      }
-    };
-
     setData([]);
     generateTree(treeObj, null, 0);
   }, [generateTree, treeType]);
+
+  function addNode(root) {
+    if (root === null) {
+      return;
+    }
+
+    if (root.val < valueToInsert) {
+      addNode(root.left);
+    } else {
+      addNode(root.right);
+    }
+  }
+
+  useEffect(() => {
+    addNode(treeObj);
+    setData([]);
+    generateTree(treeObj, null, 0);
+  }, [generateTree, valueToInsert]);
 
   if (treeType !== 'bst') {
     return null;
