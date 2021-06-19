@@ -9,6 +9,7 @@ function App() {
   const [selectedTreeValue, setSelectedTreeValue] = useState();
   const [selectedAlgorithmValue, setSelectedAlgorithmValue] = useState();
   const [insertValue, setInsertValue] = useState(0);
+  const [valueToInsert, setValueToInsert] = useState(0);
 
   return (
     <div>
@@ -33,10 +34,10 @@ function App() {
             name="name"
             value={insertValue}
             onChange={(e) => setInsertValue(e.target.value)} />
-          <input type="button" value="Insert" onClick={() => console.log(insertValue)} />
+          <input type="button" value="Insert" onClick={() => setValueToInsert(insertValue)} />
         </form>
         <Tree
-          insertValue={insertValue}
+          valueToInsert={valueToInsert}
           type={selectedTreeValue}
         />
       </div>
