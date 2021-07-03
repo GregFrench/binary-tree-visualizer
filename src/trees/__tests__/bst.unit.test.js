@@ -74,3 +74,16 @@ test('insert with an input of key 5 after 10 creates a new node on the left bran
     'right': null,
   });
 });
+
+test('insert with an input of key 15 after 10 creates a new node on the right branch of the root', () => {
+  let root = null;
+  const key = 15;
+
+  root = bst.insert(root, 10);
+
+  expect(bst.insert(root, key).right).toStrictEqual({
+    key,
+    'left': null,
+    'right': null,
+  });
+});
