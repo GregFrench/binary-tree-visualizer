@@ -1,5 +1,3 @@
-import { root } from "postcss";
-
 const newNode = (key) => {
   return {
     key,
@@ -41,8 +39,12 @@ const deleteNode = (node, key) => {
 
   if (key < node.key) {
     node.left = deleteNode(node.left, key);
+  } else if (key > node.key) {
+    node.right = deleteNode(node.right, key);
   } else {
-    if (node.right === null) {
+    if (node.left === null) {
+      return node.right;
+    } else if (node.right === null) {
       return node.left;
     }
   }

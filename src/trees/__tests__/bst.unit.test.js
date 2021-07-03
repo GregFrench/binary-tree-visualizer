@@ -210,3 +210,18 @@ test('deleteNode with an input of key 5 after inserting key 10 and 5 returns the
     'right': null,
   });
 });
+
+test('deleteNode with an input of key 15 after inserting key 10 and 15 returns the correct node', () => {
+  let root = null;
+  const key = 15;
+  const rootKey = 10;
+
+  root = bst.insert(root, rootKey);
+  bst.insert(root, key);
+
+  expect(bst.deleteNode(root, key)).toStrictEqual({
+    key: rootKey,
+    'left': null,
+    'right': null,
+  });
+});
