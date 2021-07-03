@@ -24,6 +24,10 @@ const search = (node, key) => {
   if (node === null) {
     return null;
   }
+
+  if (key < node.key) {
+    return search(node.left, key);
+  }
 };
 
 const bst = {

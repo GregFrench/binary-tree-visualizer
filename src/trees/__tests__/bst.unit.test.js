@@ -121,3 +121,12 @@ test('search with an input of null and 0 returns null', () => {
 
   expect(bst.search(null, key)).toEqual(null);
 });
+
+test('search with an input of key 5 after inserting key 10 returns null', () => {
+  let root = null;
+  const key = 5;
+
+  root = bst.insert(root, 10);
+
+  expect(bst.search(root, key)).toEqual(null);
+});
