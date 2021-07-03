@@ -28,6 +28,8 @@ const search = (node, key) => {
   if (key < node.key) {
     return search(node.left, key);
   }
+
+  return null;
 };
 
 const bst = {

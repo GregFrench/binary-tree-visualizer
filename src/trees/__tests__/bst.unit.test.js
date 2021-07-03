@@ -157,3 +157,12 @@ test('search with an input of key 5 after inserting key 10 and 5 returns the cor
     'right': null,
   });
 });
+
+test('search with an input of key 15 after inserting key 10 returns null', () => {
+  let root = null;
+  const key = 15;
+
+  root = bst.insert(root, 10);
+
+  expect(bst.search(root, key)).toEqual(null);
+});
