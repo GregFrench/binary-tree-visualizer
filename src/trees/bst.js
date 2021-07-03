@@ -1,5 +1,5 @@
 const insert = (node, key) => {
-  if (node == null) {
+  if (node === null) {
     return newNode(key);
   }
 
