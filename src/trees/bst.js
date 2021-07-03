@@ -1,3 +1,11 @@
+const newNode = (key) => {
+  return {
+    key,
+    left: null,
+    right: null,
+  };
+};
+
 const insert = (node, key) => {
   if (node === null) {
     return newNode(key);
@@ -10,14 +18,6 @@ const insert = (node, key) => {
   }
 
   return node;
-};
-
-const newNode = (key) => {
-  return {
-    key,
-    left: null,
-    right: null,
-  };
 };
 
 const bst = {
