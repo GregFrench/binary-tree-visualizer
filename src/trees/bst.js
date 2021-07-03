@@ -32,7 +32,12 @@ const search = (node, key) => {
   return search(node.right, key);
 };
 
+const deleteNode = (node, key) => {
+  return null;
+};
+
 const bst = {
+  deleteNode,
   insert,
   newNode,
   search,

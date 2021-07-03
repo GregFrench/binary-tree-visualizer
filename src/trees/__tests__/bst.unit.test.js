@@ -180,3 +180,9 @@ test('search with an input of key 15 after inserting key 10 and 15 returns the c
     'right': null,
   });
 });
+
+test('deleteNode with an input of null and 0 returns null', () => {
+  const key = 0;
+
+  expect(bst.deleteNode(null, key)).toEqual(null);
+});
