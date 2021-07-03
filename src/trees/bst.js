@@ -1,3 +1,11 @@
+const newNode = (key) => {
+  return {
+    key,
+    left: null,
+    right: null,
+  };
+};
+
 const insert = (node, key) => {
   if (node === null) {
     return newNode(key);
@@ -12,17 +20,22 @@ const insert = (node, key) => {
   return node;
 };
 
-const newNode = (key) => {
-  return {
-    key,
-    left: null,
-    right: null,
-  };
+const search = (node, key) => {
+  if (node === null || node.key === key) {
+    return node;
+  }
+
+  if (key < node.key) {
+    return search(node.left, key);
+  }
+
+  return search(node.right, key);
 };
 
 const bst = {
   insert,
   newNode,
+  search,
 };
 
 export default bst;

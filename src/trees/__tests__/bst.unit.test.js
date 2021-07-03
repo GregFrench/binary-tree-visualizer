@@ -115,3 +115,68 @@ test('insert with an input of key 18 after 15 and 10 creates two new nodes on th
     'right': null,
   });
 });
+
+test('search with an input of null and 0 returns null', () => {
+  const key = 0;
+
+  expect(bst.search(null, key)).toEqual(null);
+});
+
+test('search with an input of key 5 after inserting key 10 returns null', () => {
+  let root = null;
+  const key = 5;
+
+  root = bst.insert(root, 10);
+
+  expect(bst.search(root, key)).toEqual(null);
+});
+
+test('search with an input of key 10 after inserting key 10 returns the correct node', () => {
+  let root = null;
+  const key = 10;
+
+  root = bst.insert(root, key);
+
+  expect(bst.search(root, key)).toStrictEqual({
+    key,
+    'left': null,
+    'right': null,
+  });
+});
+
+test('search with an input of key 5 after inserting key 10 and 5 returns the correct node', () => {
+  let root = null;
+  const key = 5;
+
+  root = bst.insert(root, 10);
+  bst.insert(root, key);
+
+  expect(bst.search(root, key)).toStrictEqual({
+    key,
+    'left': null,
+    'right': null,
+  });
+});
+
+test('search with an input of key 15 after inserting key 10 returns null', () => {
+  let root = null;
+  const key = 15;
+
+  root = bst.insert(root, 10);
+
+  expect(bst.search(root, key)).toEqual(null);
+});
+
+test('search with an input of key 15 after inserting key 10 and 15 returns the correct node', () => {
+  let root = null;
+  const key = 15;
+
+  root = bst.insert(root, 10);
+  bst.insert(root, key);
+
+  expect(bst.search(root, key)).toStrictEqual({
+    key,
+    'left': null,
+    'right': null,
+  });
+});
