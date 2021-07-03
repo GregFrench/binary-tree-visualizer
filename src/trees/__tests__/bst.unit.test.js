@@ -115,3 +115,9 @@ test('insert with an input of key 18 after 15 and 10 creates two new nodes on th
     'right': null,
   });
 });
+
+test('search with an input of null and 0 returns null', () => {
+  const key = 0;
+
+  expect(bst.search(null, key)).toEqual(null);
+});

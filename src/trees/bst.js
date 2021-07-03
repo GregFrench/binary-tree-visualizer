@@ -20,9 +20,16 @@ const insert = (node, key) => {
   return node;
 };
 
+const search = (node, key) => {
+  if (node === null) {
+    return null;
+  }
+};
+
 const bst = {
   insert,
   newNode,
+  search,
 };
 
 export default bst;
