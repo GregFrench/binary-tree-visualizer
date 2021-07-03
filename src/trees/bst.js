@@ -29,7 +29,7 @@ const search = (node, key) => {
     return search(node.left, key);
   }
 
-  return null;
+  return search(node.right, key);
 };
 
 const bst = {

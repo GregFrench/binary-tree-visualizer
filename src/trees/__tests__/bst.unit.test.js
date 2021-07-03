@@ -166,3 +166,17 @@ test('search with an input of key 15 after inserting key 10 returns null', () =>
 
   expect(bst.search(root, key)).toEqual(null);
 });
+
+test('search with an input of key 15 after inserting key 10 and 15 returns the correct node', () => {
+  let root = null;
+  const key = 15;
+
+  root = bst.insert(root, 10);
+  bst.insert(root, key);
+
+  expect(bst.search(root, key)).toStrictEqual({
+    key,
+    'left': null,
+    'right': null,
+  });
+});
