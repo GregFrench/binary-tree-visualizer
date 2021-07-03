@@ -21,8 +21,8 @@ const insert = (node, key) => {
 };
 
 const search = (node, key) => {
-  if (node === null) {
-    return null;
+  if (node === null || node.key === key) {
+    return node;
   }
 
   if (key < node.key) {
