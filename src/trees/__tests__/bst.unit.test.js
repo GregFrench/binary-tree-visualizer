@@ -186,3 +186,12 @@ test('deleteNode with an input of null and 0 returns null', () => {
 
   expect(bst.deleteNode(null, key)).toEqual(null);
 });
+
+test('deleteNode with an input of key 10 after inserting key 10 returns null', () => {
+  let root = null;
+  const key = 10;
+
+  root = bst.insert(root, 10);
+
+  expect(bst.deleteNode(root, key)).toEqual(null);
+});
