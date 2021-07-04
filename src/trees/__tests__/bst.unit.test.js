@@ -180,3 +180,84 @@ test('search with an input of key 15 after inserting key 10 and 15 returns the c
     'right': null,
   });
 });
+
+test('deleteNode with an input of null and 0 returns null', () => {
+  const key = 0;
+
+  expect(bst.deleteNode(null, key)).toEqual(null);
+});
+
+test('deleteNode with an input of key 10 after inserting key 10 returns null', () => {
+  let root = null;
+  const key = 10;
+
+  root = bst.insert(root, 10);
+
+  expect(bst.deleteNode(root, key)).toEqual(null);
+});
+
+test('deleteNode with an input of key 5 after inserting key 10 and 5 returns the correct node', () => {
+  let root = null;
+  const key = 5;
+  const rootKey = 10;
+
+  root = bst.insert(root, rootKey);
+  bst.insert(root, key);
+
+  expect(bst.deleteNode(root, key)).toStrictEqual({
+    key: rootKey,
+    'left': null,
+    'right': null,
+  });
+});
+
+test('deleteNode with an input of key 15 after inserting key 10 and 15 returns the correct node', () => {
+  let root = null;
+  const key = 15;
+  const rootKey = 10;
+
+  root = bst.insert(root, rootKey);
+  bst.insert(root, key);
+
+  expect(bst.deleteNode(root, key)).toStrictEqual({
+    key: rootKey,
+    'left': null,
+    'right': null,
+  });
+});
+
+test('deleteNode with an input of key 10 after inserting key 10 and 5 returns the correct node', () => {
+  let root = null;
+  const key = 5;
+  const rootKey = 10;
+
+  root = bst.insert(root, rootKey);
+  bst.insert(root, key);
+
+  expect(bst.deleteNode(root, rootKey)).toStrictEqual({
+    key,
+    'left': null,
+    'right': null,
+  });
+});
+
+test('deleteNode with an input of key 10 after inserting key 10, 5, and 15 returns the correct node', () => {
+  let root = null;
+  const key = 5;
+  const key2 = 15;
+  const rootKey = 10;
+
+  root = bst.insert(root, rootKey);
+  bst.insert(root, key);
+  bst.insert(root, key2);
+
+  expect(bst.deleteNode(root, rootKey)).toStrictEqual({
+    key: key2,
+    'left': {
+      key,
+      'left': null,
+      'right': null,
+    },
+    'right': null,
+  });
+});

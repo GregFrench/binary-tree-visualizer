@@ -32,7 +32,42 @@ const search = (node, key) => {
   return search(node.right, key);
 };
 
+const minValue = (node) => {
+  let min = node.key;
+
+  while (node.left !== null) {
+    min = node.left.key;
+    node = node.left;
+  }
+
+  return min;
+};
+
+const deleteNode = (node, key) => {
+  if (node === null) {
+    return null;
+  }
+
+  if (key < node.key) {
+    node.left = deleteNode(node.left, key);
+  } else if (key > node.key) {
+    node.right = deleteNode(node.right, key);
+  } else {
+    if (node.left === null) {
+      return node.right;
+    } else if (node.right === null) {
+      return node.left;
+    }
+
+    node.key = minValue(node.right);
+    node.right = deleteNode(node.right, node.key);
+  }
+
+  return node;
+};
+
 const bst = {
+  deleteNode,
   insert,
   newNode,
   search,
