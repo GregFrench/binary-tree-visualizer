@@ -32,6 +32,17 @@ const search = (node, key) => {
   return search(node.right, key);
 };
 
+const minValue = (node) => {
+  let min = node.key;
+
+  while (node.left !== null) {
+    min = node.left.key;
+    node = node.left;
+  }
+
+  return min;
+};
+
 const deleteNode = (node, key) => {
   if (node === null) {
     return null;
@@ -47,6 +58,9 @@ const deleteNode = (node, key) => {
     } else if (node.right === null) {
       return node.left;
     }
+
+    node.key = minValue(node.right);
+    node.right = deleteNode(node.right, node.key);
   }
 
   return node;
