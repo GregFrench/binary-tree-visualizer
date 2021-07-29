@@ -1,10 +1,4 @@
-const newNode = (key) => {
-  return {
-    key,
-    left: null,
-    right: null,
-  };
-};
+import { newNode } from './tree';
 
 const insert = (node, key) => {
   if (node === null) {
